@@ -69,10 +69,9 @@
                         اتصل
                     </a>
                     
-                    <a href="" class="btn btn-light btn-lg">
-                      حجز الوحدة
-                    
-                    </a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                        حجز الوحدة
+                    </button>
                 </div>
 
                 <!-- زر المشاركة -->
@@ -193,15 +192,108 @@
 
 @push('scripts')
 <script>
-function shareUnit() {
-    if (navigator.share) {
-        navigator.share({
-            title: '{{ $unite->name }}',
-            text: '{{ $unite->description }}',
-            url: window.location.href
+document.addEventListener('DOMContentLoaded', function() {
+    const bookingForm = document.getElementById('bookingForm');
+    
+    bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // إغلاق Modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+                modal.hide();
+                
+                // عرض رسالة النجاح
+                Swal.fire({
+                    title: 'تم الحجز بنجاح!',
+                    text: 'سيتم التواصل معك قريباً',
+                    icon: 'success',
+                    confirmButtonText: 'حسناً',
+                    confirmButtonColor: '#28a745',
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+                
+                // إعادة تعيين النموذج
+                this.reset();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'خطأ!',
+                text: 'حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.',
+                icon: 'error',
+                confirmButtonText: 'حسناً',
+                confirmButtonColor: '#dc3545'
+            });
         });
-    }
-}
+    });
+});
 </script>
 @endpush
+
+<!-- تأكد من إضافة SweetAlert2 في ملف layout -->
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
+
+<!-- Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">حجز الوحدة</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="bookingForm" action="{{ route('frontend.bookings.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="unite_id" value="{{ $unite->id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">الاسم</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رقم الهاتف</label>
+                        <input type="tel" name="phone" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" name="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">ملاحظات</label>
+                        <textarea name="notes" class="form-control" rows="3"></textarea>
+                    </div>
+                    <!-- معلومات الوحدة -->
+                    <div class="unit-info bg-light p-3 rounded">
+                        <h6>تفاصيل الوحدة:</h6>
+                        <p class="mb-1">{{ $unite->name }}</p>
+                        <p class="mb-1">السعر: {{ number_format($unite->price) }} جنيه</p>
+                        <p class="mb-0">الموقع: {{ $unite->location }}</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">تأكيد الحجز</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
