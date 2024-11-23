@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
     public function store(Request $request)
     {
-        Log::info('Received booking request', $request->all());
+        Log::info('Booking request received', ['data' => $request->all()]);
 
         try {
+            DB::beginTransaction();
+
             $validated = $request->validate([
                 'unite_id' => 'required|exists:unites,id',
                 'name' => 'required|string',
@@ -21,6 +24,8 @@ class BookingController extends Controller
                 'email' => 'required|email',
                 'notes' => 'nullable|string'
             ]);
+
+            Log::info('Validation passed', ['validated_data' => $validated]);
 
             $booking = Booking::create([
                 'unite_id' => $validated['unite_id'],
@@ -31,7 +36,9 @@ class BookingController extends Controller
                 'status' => 'pending'
             ]);
 
-            Log::info('Booking created successfully', ['booking_id' => $booking->id]);
+            DB::commit();
+
+            Log::info('Booking created successfully', ['booking' => $booking]);
 
             return response()->json([
                 'success' => true,
@@ -40,14 +47,18 @@ class BookingController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            DB::rollBack();
+            
             Log::error('Booking creation failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
+                'request_data' => $request->all()
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'حدث خطأ في عملية الحجز: ' . $e->getMessage()
+                'message' => 'حدث خطأ في عملية الحجز',
+                'error' => $e->getMessage()
             ], 500);
         }
     }

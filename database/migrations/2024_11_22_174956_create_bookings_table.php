@@ -14,15 +14,11 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('unite_id')->constrained()->onDelete('cascade');
-            $table->string('tenant_name');
-            $table->date('booking_date');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->decimal('rent_amount', 10, 2);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('name');
             $table->string('phone');
             $table->string('email');
             $table->text('notes')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
