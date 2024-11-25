@@ -13,7 +13,6 @@ class BookingController extends Controller
         $bookings = Booking::with('unite')
             ->latest()
             ->paginate(10);
-            
         return view('admin.bookings.index', compact('bookings'));
     }
 

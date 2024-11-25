@@ -32,7 +32,6 @@ class BookingController extends Controller
             ]);
 
             Log::info('Booking created successfully', ['booking_id' => $booking->id]);
-
             return response()->json([
                 'success' => true,
                 'message' => 'تم الحجز بنجاح',

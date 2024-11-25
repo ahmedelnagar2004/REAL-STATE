@@ -12,7 +12,29 @@ class UniteController extends Controller
     // عرض قائمة الوحدات
     public function index()
     {
-        $unites = Unite::with('images')->latest()->paginate(10);
+        $query = Unite::query();
+
+        if (request()->has('search') && request()->filled('search')) {
+            $searchTerm = request()->search;
+            $searchBy = request()->search_by ?? 'name';
+
+            switch ($searchBy) {
+                case 'name':
+                    $query->where('name', 'LIKE', "%{$searchTerm}%");
+                    break;
+                case 'location':
+                    $query->where('location', 'LIKE', "%{$searchTerm}%");
+                    break;
+                case 'price':
+                    $searchPrice = str_replace(',', '', $searchTerm);
+                    if (is_numeric($searchPrice)) {
+                        $query->where('price', '=', $searchPrice);
+                    }
+                    break;
+            }
+        }
+
+        $unites = $query->latest()->paginate(12);
         return view('unites.index', compact('unites'));
     }
 
