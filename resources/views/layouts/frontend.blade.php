@@ -13,9 +13,12 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
+            background-color: #0a2640;
+            color: #ffffff;
         }
         .navbar {
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: #0a2640 !important;
         }
         .navbar-brand {
             font-size: 1.5rem;
@@ -26,6 +29,117 @@
             color: white;
             padding: 40px 0;
         }
+        .navbar .nav-link,
+        .navbar .navbar-brand {
+            color: #ffffff !important;
+        }
+        .navbar .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #ffffff;
+        }
+        p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .card {
+            background-color: #ffffff;
+            color: #0a2640;
+        }
+        .card-title {
+            color: #0a2640;
+        }
+        .card-text {
+            color: #333;
+        }
+        a {
+            color: #ffffff;
+        }
+        a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        /* Navbar Styles */
+        .navbar {
+            background-color: #0a2640 !important;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .logo-img {
+            height: 40px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Action Buttons */
+        .nav-buttons .btn {
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light.rounded-circle {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: #4c1d95;
+            border-color: #4c1d95;
+        }
+
+        .btn-primary:hover {
+            background-color: #5b21b6;
+            border-color: #5b21b6;
+        }
+
+        .btn-outline-primary {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 991.98px) {
+            .nav-buttons {
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .navbar-collapse {
+                background-color: #0a2640;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+
+            .navbar-nav {
+                text-align: center;
+            }
+        }
+
+        /* Add padding to body to prevent content from hiding under fixed navbar */
+        body {
+            padding-top: 80px;
+        }
     </style>
     @stack('styles')
     <!-- إضافة SweetAlert2 CSS -->
@@ -33,27 +147,49 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
+            <!-- Logo -->
             <a class="navbar-brand" href="{{ route('frontend.home') }}">
-                REAL STATE AGENT
+                <img src="{{ asset('images/frontend/DALL·E 2024-11-25 21.55.28 - A professional and elegant logo design for a real estate website with a transparent background. The logo features a modern house icon with a sleek roo.webp') }}" alt="MENASSAT" class="logo-img">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+
+            <!-- Navigation Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('frontend.home') }}">الرئيسية</a>
+                        <a class="nav-link {{ request()->routeIs('frontend.home') ? 'active' : '' }}" href="{{ route('frontend.home') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Services
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('frontend.search') }}">البحث</a>
+                        <a class="nav-link" href="#">Auctions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">اتصل بنا</a>
+                        <a class="nav-link" href="#">Offers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">News</a>
                     </li>
                 </ul>
             </div>
+
+            <!-- Action Buttons -->
+            <div class="nav-buttons d-none d-lg-flex">
+                <button class="btn btn-outline-light rounded-circle me-2">
+                    <i class="fas fa-search"></i>
+                </button>
+                <a href="{{ route('frontend.market.create') }}" class="btn btn-primary px-4 me-2">Start marketing now</a>
+                <a href="" class="btn btn-outline-primary px-4">Need service ?</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </nav>
 

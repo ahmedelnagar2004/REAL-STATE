@@ -177,22 +177,40 @@
     <div class="city-line">
         <!-- المجموعة الأولى من المباني -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="city-svg">
-            <!-- مباني متنوعة -->
-            <path class="building" d="M0,160 L40,160 L40,60 L80,60 L80,160 L120,160 L120,100 L160,100 L160,160"/>
-            <path class="building" d="M200,160 L240,160 L240,40 L280,40 L280,160 L320,160 L320,80 L360,80 L360,160"/>
-            <path class="building" d="M400,160 L440,160 L440,20 L480,20 L480,160 L520,160 L520,60 L560,60 L560,160"/>
-            <!-- برج طويل -->
-            <path class="building" d="M600,160 L640,160 L640,10 L680,10 L680,160"/>
-            <!-- مبنى متدرج -->
-            <path class="building" d="M720,160 L760,160 L760,120 L800,120 L800,80 L840,80 L840,40 L880,40 L880,160"/>
-            <!-- مباني صغيرة -->
-            <path class="building" d="M920,160 L960,160 L960,140 L1000,140 L1000,160"/>
-            <path class="building" d="M1040,160 L1080,160 L1080,130 L1120,130 L1120,160"/>
-            <!-- برج آخر -->
-            <path class="building" d="M1160,160 L1200,160 L1200,20 L1240,20 L1240,160"/>
-            <!-- مباني متوسطة -->
-            <path class="building" d="M1280,160 L1320,160 L1320,100 L1360,100 L1360,160"/>
-            <path class="building" d="M1400,160 L1440,160 L1440,90 L1480,90 L1480,160"/>
+            <!-- مباني كلاسيكية مع نوافذ -->
+            <path class="building" d="M0,160 L40,160 L40,80 L60,60 L80,80 L80,160"/>
+            <path class="building" d="M100,160 L140,160 L140,40 L160,20 L180,40 L180,160"/>
+            
+            <!-- برج حديث مع قمة مميزة -->
+            <path class="building" d="M200,160 L240,160 L240,30 L260,10 L280,30 L280,160"/>
+            
+            <!-- مجمع مباني متدرجة -->
+            <path class="building" d="M300,160 L340,160 L340,120 L360,100 L380,80 L400,60 L420,40 L440,60 L440,160"/>
+            
+            <!-- مسجد مع قبة ومئذنة -->
+            <path class="building" d="M460,160 L500,160 L500,80 C500,60 520,40 540,40 C560,40 580,60 580,80 L580,160"/>
+            <path class="building" d="M520,40 L520,10"/> <!-- مئذنة -->
+            
+            <!-- ناطحة سحاب مع تصميم زجزاج -->
+            <path class="building" d="M600,160 L640,160 L640,20 L660,10 L680,20 L680,40 L660,50 L680,60 L680,160"/>
+            
+            <!-- مبنى مع شرفات -->
+            <path class="building" d="M700,160 L740,160 L740,120 L760,120 L760,80 L780,80 L780,40 L800,40 L800,160"/>
+            
+            <!-- مباني سكنية متنوعة -->
+            <path class="building" d="M820,160 L860,160 L860,100 L880,80 L900,100 L900,160"/>
+            <path class="building" d="M920,160 L960,160 L960,70 L980,50 L1000,70 L1000,160"/>
+            
+            <!-- برج مستقبلي -->
+            <path class="building" d="M1020,160 L1060,160 L1060,20 L1080,5 L1100,20 L1100,160"/>
+            
+            <!-- مجمع تجاري -->
+            <path class="building" d="M1120,160 L1160,160 L1160,80 L1180,60 L1200,80 L1200,120 L1220,100 L1240,120 L1240,160"/>
+            
+            <!-- تفاصيل إضافية -->
+            <circle cx="520" cy="60" r="15" class="building-detail"/> <!-- قبة المسجد -->
+            <rect x="840" y="120" width="10" height="10" class="building-detail"/> <!-- نوافذ -->
+            <rect x="940" y="90" width="10" height="10" class="building-detail"/>
         </svg>
     </div>
 </section>
@@ -608,12 +626,16 @@
 }
 
 .building {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
+    fill: #2c3e50;
+    transition: fill 0.3s;
+}
+
+.building:hover {
+    fill: #3498db;
+}
+
+.building-detail {
+    fill: #34495e;
 }
 
 /* تحريك المباني */

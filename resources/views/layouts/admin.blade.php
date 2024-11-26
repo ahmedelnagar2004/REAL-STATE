@@ -43,6 +43,9 @@
             font-weight: bold;
         }
     </style>
+    
+    <!-- إضافة SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -73,6 +76,13 @@
                                href="{{ route('unites.index') }}">
                                 <i class="fas fa-building me-2"></i>
                                 الوحدات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('admin.clients.*') ? 'active' : '' }}" 
+                               href="{{ route('admin.clients.index') }}">
+                                <i class="fas fa-user-check me-2"></i>
+                                طلبات عرض الوحدات
                             </a>
                         </li>
                     </ul>

@@ -91,6 +91,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="bg-warning bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-users fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">طلبات العملاء</h6>
+                            <h3 class="mb-0">{{ \App\Models\Client::count() }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- After the Quick Stats row and before Quick Actions -->
@@ -136,9 +154,19 @@
                         </div>
                     </a>
                 </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <a href="{{ route('admin.clients.index') }}" class="card bg-warning bg-opacity-10 text-decoration-none h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-check fa-2x mb-3 text-warning"></i>
+                            <h5 class="text-warning mb-0">طلبات عرض الوحدات</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 @push('styles')
